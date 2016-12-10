@@ -1,6 +1,8 @@
 package com.example.markupservice.model;
 
 import com.example.markupservice.common.MarkupServiceTypes;
+import com.example.markupservice.common.Util;
+import com.example.markupservice.exception.InvalidNumberException;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -16,7 +18,8 @@ public class MarkupServiceModel {
         this.type = MarkupServiceTypes.OTHER;
     }
 
-    public MarkupServiceModel(double price, int noOfPeople, String materialType)    {
+    public MarkupServiceModel(double price, int noOfPeople, String materialType) throws InvalidNumberException {
+        Util.validateData(price, noOfPeople);
         this.price = price;
         this.noOfPeople = noOfPeople;
         materialType = materialType!=null? materialType.toUpperCase():"";
@@ -31,11 +34,14 @@ public class MarkupServiceModel {
         }
     }
 
-    public MarkupServiceModel(double price, int noOfPeople, MarkupServiceTypes materialType)    {
+    public MarkupServiceModel(double price, int noOfPeople, MarkupServiceTypes materialType) throws InvalidNumberException {
+        Util.validateData(price, noOfPeople);
         this.price = price;
         this.noOfPeople = noOfPeople;
         this.type = materialType;
     }
+
+
 
     public double getPrice() {
         return price;

@@ -136,10 +136,16 @@ public class MarkupPriceCalculatorServiceImplTest {
     }
 
     @Test
-    public void setupInvalidModelOthers() throws InvalidNumberException   {
-        model = new MarkupServiceModel(-12456.95,4, "books");
+    public void setupInvalidPrice() throws InvalidNumberException   {
         thrown.expect(InvalidNumberException.class);
         thrown.expectMessage("Price value cannot be in Negative");
-        markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
+        model = new MarkupServiceModel(-12.95,4, "books");
+    }
+
+    @Test
+    public void setupInvalidPersonCount() throws InvalidNumberException   {
+        thrown.expect(InvalidNumberException.class);
+        thrown.expectMessage("Number of person cannot be a Negative value");
+        model = new MarkupServiceModel(12.95,-14, "food");
     }
 }

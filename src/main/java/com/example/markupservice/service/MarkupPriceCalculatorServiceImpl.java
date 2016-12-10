@@ -30,9 +30,7 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
     }
 
     public MarkupPriceCalculatorServiceImpl(MarkupServiceModel model) throws InvalidNumberException {
-        if(model.getPrice()<0) {
-            throw new InvalidNumberException("Price value cannot be in Negative");
-        }
+        Util.validateData(model.getPrice(), model.getNoOfPeople());
         this.markupServiceModel = model;
     }
 
@@ -50,7 +48,6 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
     public double calculateTotalMarkupPrice() throws InvalidNumberException {
         IMaterialMarkupCalculatorService materialService = getServiceMap().get(markupServiceModel.getType());
         double flatPrice = calculateFlatPrice();
-        System.out.println("service name is "+markupServiceModel.getType() +" type is "+materialService);
         double materialTypePrice = materialService.calculateMaterialMarkupPrice(flatPrice);
         double personPrice = calculatorPersonPrice();
         return flatPrice + personPrice + materialTypePrice;
@@ -78,9 +75,7 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
 
 
     public void setMarkupServiceModel(MarkupServiceModel markupServiceModel) throws InvalidNumberException {
-        if(markupServiceModel.getPrice()<0) {
-            throw new InvalidNumberException("Price value cannot be in Negative");
-        }
+        Util.validateData(markupServiceModel.getPrice(), markupServiceModel.getNoOfPeople());
         this.markupServiceModel = markupServiceModel;
     }
 

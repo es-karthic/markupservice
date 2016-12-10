@@ -14,7 +14,7 @@ public class ElectronicsMarkupService implements IMaterialMarkupCalculatorServic
     @Override
     public double calculateMaterialMarkupPrice(double baseFlatPrice) throws InvalidNumberException {
         if(baseFlatPrice <0) {
-            throw new InvalidNumberException("Price value cannot be in Negative");
+            throw new InvalidNumberException(Util.PRICE_NEGATIVE_EXCEPTION);
         }
         return baseFlatPrice * Util.inPercentage(getElectronicsMarkupPercent());
     }
