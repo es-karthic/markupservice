@@ -1,12 +1,20 @@
 package com.example.markupservice.model;
 
 import com.example.markupservice.common.MarkupServiceTypes;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class MarkupServiceModel {
 
     private double price;
     private int noOfPeople;
     private MarkupServiceTypes type;
+
+    public MarkupServiceModel() {
+        this.price = 0;
+        this.noOfPeople = 0;
+        this.type = MarkupServiceTypes.OTHER;
+    }
 
     public MarkupServiceModel(double price, int noOfPeople, String materialType)    {
         this.price = price;
@@ -21,6 +29,12 @@ public class MarkupServiceModel {
         }   else {
                 this.type = MarkupServiceTypes.OTHER;
         }
+    }
+
+    public MarkupServiceModel(double price, int noOfPeople, MarkupServiceTypes materialType)    {
+        this.price = price;
+        this.noOfPeople = noOfPeople;
+        this.type = materialType;
     }
 
     public double getPrice() {
@@ -46,4 +60,6 @@ public class MarkupServiceModel {
     public void setType(MarkupServiceTypes type) {
         this.type = type;
     }
+
+
 }
