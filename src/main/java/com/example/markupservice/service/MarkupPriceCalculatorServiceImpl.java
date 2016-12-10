@@ -1,6 +1,7 @@
 package com.example.markupservice.service;
 
 import com.example.markupservice.common.MarkupServiceTypes;
+import com.example.markupservice.common.Util;
 import com.example.markupservice.exception.InvalidNumberException;
 import com.example.markupservice.model.MarkupServiceModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
     @Autowired
     private Map<MarkupServiceTypes, IMaterialMarkupCalculatorService> serviceMap;
 
+    public MarkupPriceCalculatorServiceImpl()   {
+        this.markupServiceModel = new MarkupServiceModel();
+    }
+
     public MarkupPriceCalculatorServiceImpl(MarkupServiceModel model) throws InvalidNumberException {
         if(model.getPrice()<0) {
             throw new InvalidNumberException("Price value cannot be in Negative");
@@ -33,17 +38,22 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
 
     @Override
     public double calculateFlatPrice() {
-        return 0;
+        return markupServiceModel.getPrice() + (Util.inPercentage(getFlat()) * markupServiceModel.getPrice());
     }
 
     @Override
     public double calculatorPersonPrice() {
-        return 0;
+        return calculateFlatPrice() * Util.inPercentage(getPersonPercent()) * markupServiceModel.getNoOfPeople();
     }
 
     @Override
-    public double calculateTotalMarkupPrice() {
-        return 0;
+    public double calculateTotalMarkupPrice() throws InvalidNumberException {
+        IMaterialMarkupCalculatorService materialService = getServiceMap().get(markupServiceModel.getType());
+        double flatPrice = calculateFlatPrice();
+        System.out.println("service name is "+markupServiceModel.getType() +" type is "+materialService);
+        double materialTypePrice = materialService.calculateMaterialMarkupPrice(flatPrice);
+        double personPrice = calculatorPersonPrice();
+        return flatPrice + personPrice + materialTypePrice;
     }
 
     public double getFlat() {
@@ -66,6 +76,7 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
         return markupServiceModel;
     }
 
+
     public void setMarkupServiceModel(MarkupServiceModel markupServiceModel) {
         this.markupServiceModel = markupServiceModel;
     }
@@ -73,6 +84,7 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
     public Map<MarkupServiceTypes, IMaterialMarkupCalculatorService> getServiceMap() {
         return serviceMap;
     }
+
 
     public void setServiceMap(Map<MarkupServiceTypes, IMaterialMarkupCalculatorService> serviceMap) {
         this.serviceMap = serviceMap;

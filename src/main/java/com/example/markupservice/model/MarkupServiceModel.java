@@ -23,9 +23,9 @@ public class MarkupServiceModel {
         if(MarkupServiceTypes.FOOD.name().equalsIgnoreCase(materialType))  {
             this.type = MarkupServiceTypes.FOOD;
         }   else if(MarkupServiceTypes.DRUGS.name().equalsIgnoreCase(materialType))  {
-             this.type = MarkupServiceTypes.FOOD;
+             this.type = MarkupServiceTypes.DRUGS;
         }   else if(MarkupServiceTypes.ELECTRONICS.name().equalsIgnoreCase(materialType))  {
-             this.type = MarkupServiceTypes.FOOD;
+             this.type = MarkupServiceTypes.ELECTRONICS;
         }   else {
                 this.type = MarkupServiceTypes.OTHER;
         }

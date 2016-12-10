@@ -37,17 +37,17 @@ public class OtherMarkupServiceTest {
     }
 
     @Test
-    public void testCalculateFoodMarkup() throws InvalidNumberException {
+    public void testCalculateOtherMarkup() throws InvalidNumberException {
         assertEquals(0, otherMarkupService.calculateMaterialMarkupPrice(5703.6),1);
     }
 
     @Test
-    public void testCalculateFoodMarkupUseCase2() throws InvalidNumberException {
+    public void testCalculateOtherMarkupUseCase2() throws InvalidNumberException {
         assertEquals(0, otherMarkupService.calculateMaterialMarkupPrice(1500),1);
     }
 
     @Test
-    public void testCalculateFoodMarkupNegative() throws InvalidNumberException {
+    public void testCalculateOtherMarkupNegative() throws InvalidNumberException {
         thrown.expect(InvalidNumberException.class);
         thrown.expectMessage("Price value cannot be in Negative");
         assertEquals(195, otherMarkupService.calculateMaterialMarkupPrice(-1500),1);
