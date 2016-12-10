@@ -31,14 +31,14 @@ public class MarkupPriceCalculatorServiceImplTest {
     }
 
     @Test
-    public void testCalculatorBasePlusFlatMarkupPrice(){
+    public void testCalculatorBasePlusFlatMarkupPrice() throws InvalidNumberException {
         setupFood();
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
         assertEquals(1364.9895, markupPriceCalculatorServiceImpl.calculateFlatPrice(),1);
     }
 
     @Test
-    public void testCalculatorPersonMarkupPrice(){
+    public void testCalculatorPersonMarkupPrice() throws InvalidNumberException {
         setupFood();
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
         assertEquals(49.139, markupPriceCalculatorServiceImpl.calculatorPersonPrice(),1);
@@ -51,13 +51,13 @@ public class MarkupPriceCalculatorServiceImplTest {
     }
 
     @Test
-    public void testCalculatorBasePlusFlatMarkupPriceForDrugs(){
+    public void testCalculatorBasePlusFlatMarkupPriceForDrugs() throws InvalidNumberException {
         setupDrugs();
         assertEquals(5703.6, markupPriceCalculatorServiceImpl.calculateFlatPrice(),1);
     }
 
     @Test
-    public void testCalculatorPersonMarkupPriceForDrugs(){
+    public void testCalculatorPersonMarkupPriceForDrugs() throws InvalidNumberException {
         setupDrugs();
         assertEquals(68.4432, markupPriceCalculatorServiceImpl.calculatorPersonPrice(),1);
     }
@@ -69,13 +69,13 @@ public class MarkupPriceCalculatorServiceImplTest {
     }
 
     @Test
-    public void testCalculatorBasePlusFlatMarkupPriceForElectronics(){
+    public void testCalculatorBasePlusFlatMarkupPriceForElectronics() throws InvalidNumberException {
         setupElectronics();
         assertEquals(5703.6, markupPriceCalculatorServiceImpl.calculateFlatPrice(),1);
     }
 
     @Test
-    public void testCalculatorPersonMarkupPriceForElectronics(){
+    public void testCalculatorPersonMarkupPriceForElectronics() throws InvalidNumberException {
         setupElectronics();
         assertEquals(136.8864, markupPriceCalculatorServiceImpl.calculatorPersonPrice(),1);
     }
@@ -87,13 +87,13 @@ public class MarkupPriceCalculatorServiceImplTest {
     }
 
     @Test
-    public void testCalculatorBasePlusFlatMarkupPriceForOthers(){
+    public void testCalculatorBasePlusFlatMarkupPriceForOthers() throws InvalidNumberException {
         setupOthers();
         assertEquals(13079.798, markupPriceCalculatorServiceImpl.calculateFlatPrice(),1);
     }
 
     @Test
-    public void testCalculatorPersonMarkupPriceForOthers(){
+    public void testCalculatorPersonMarkupPriceForOthers() throws InvalidNumberException {
         setupOthers();
         assertEquals(627.83028, markupPriceCalculatorServiceImpl.calculatorPersonPrice(),1);
     }
@@ -104,23 +104,42 @@ public class MarkupPriceCalculatorServiceImplTest {
         assertEquals(13707.63, markupPriceCalculatorServiceImpl.calculateTotalMarkupPrice(),1);
     }
 
-    public void setupFood()   {
+    @Test
+    public void testCalculateTotalMarkupPriceForOthersUseCase2() throws InvalidNumberException {
+        setupOthersUseCase2();
+        assertEquals(0, markupPriceCalculatorServiceImpl.calculateTotalMarkupPrice(),1);
+    }
+
+    public void setupFood()  throws InvalidNumberException  {
         model = new MarkupServiceModel(1299.99,3, "food");
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
     }
 
-    public void setupElectronics()   {
+    public void setupElectronics()  throws InvalidNumberException  {
         model = new MarkupServiceModel(5432,2, "electronics");
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
     }
 
-    public void setupDrugs()   {
+    public void setupDrugs()   throws InvalidNumberException {
         model = new MarkupServiceModel(5432,1, "drugs");
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
     }
 
-    public void setupOthers()   {
+    public void setupOthers()  throws InvalidNumberException  {
         model = new MarkupServiceModel(12456.95,4, "books");
+        markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
+    }
+
+    public void setupOthersUseCase2()  throws InvalidNumberException  {
+        model = new MarkupServiceModel(0,0, "books");
+        markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
+    }
+
+    @Test
+    public void setupInvalidModelOthers() throws InvalidNumberException   {
+        model = new MarkupServiceModel(-12456.95,4, "books");
+        thrown.expect(InvalidNumberException.class);
+        thrown.expectMessage("Price value cannot be in Negative");
         markupPriceCalculatorServiceImpl.setMarkupServiceModel(model);
     }
 }

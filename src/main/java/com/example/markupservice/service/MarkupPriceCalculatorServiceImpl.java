@@ -77,7 +77,10 @@ public class MarkupPriceCalculatorServiceImpl implements IMarkupPriceCalculatorS
     }
 
 
-    public void setMarkupServiceModel(MarkupServiceModel markupServiceModel) {
+    public void setMarkupServiceModel(MarkupServiceModel markupServiceModel) throws InvalidNumberException {
+        if(markupServiceModel.getPrice()<0) {
+            throw new InvalidNumberException("Price value cannot be in Negative");
+        }
         this.markupServiceModel = markupServiceModel;
     }
 
